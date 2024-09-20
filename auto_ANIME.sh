@@ -5,7 +5,7 @@ download_dir="/mnt/sdb2/ANIME/tmp"
 base_target_dir="/mnt/sdb2/ANIME"
 
 # 创建目标目录的函数
-move_to_target_dir() {
+copy_to_target_dir() {
     local file=$1
     local anime_name=$2
     local year=$3
@@ -18,22 +18,22 @@ move_to_target_dir() {
         echo "Created directory $target_dir"
     fi
 
-    # 移动文件
-    mv "$file" "$target_dir"
-    echo "Moved $(basename "$file") to $target_dir"
+    # 复制文件
+    cp "$file" "$target_dir"
+    echo "Copied $(basename "$file") to $target_dir"
 }
 
 # 获取季度
 get_quarter() {
     local episode_count=$1
     local week_per_episode=7
+    local episodes_per_quarter=12
+
+    # 找到季度起始集数
+    start_episode=$(( ((episode_count - 1) / episodes_per_quarter) * episodes_per_quarter + 1 ))
 
     # 计算需要推算的天数
-    if [ "$episode_count" -le 12 ]; then
-        episode_days=$(( (episode_count - 1) * week_per_episode ))
-    else
-        episode_days=$(( (episode_count - 13) * week_per_episode + 12 * week_per_episode ))
-    fi
+    episode_days=$(( (episode_count - start_episode) * week_per_episode ))
 
     # 获取当前时间
     current_time=$(date +%s)
@@ -45,10 +45,10 @@ get_quarter() {
 
     # 根据月份获取季度
     case $target_month in
-        01|02|03) echo "$target_year Q1" ;;
-        04|05|06) echo "$target_year Q2" ;;
-        07|08|09) echo "$target_year Q3" ;;
-        10|11|12) echo "$target_year Q4" ;;
+        12|01|02) echo "$target_year Q1" ;;
+        03|04|05) echo "$target_year Q2" ;;
+        06|07|08) echo "$target_year Q3" ;;
+        09|10|11) echo "$target_year Q4" ;;
     esac
 }
 
@@ -76,8 +76,8 @@ for file in "$download_dir"/*; do
     start_year=$(echo "$season_info" | cut -d ' ' -f 1)
     quarter=$(echo "$season_info" | cut -d ' ' -f 2)
 
-    # 移动文件到目标目录
-    move_to_target_dir "$file" "$anime_name" "$start_year" "$quarter"
+    # 复制文件到目标目录
+    copy_to_target_dir "$file" "$anime_name" "$start_year" "$quarter"
 done
 
 echo "All files have been organized."
