@@ -2,6 +2,7 @@
 
 #此为qBittorrent “Torrent 完成时运行外部程序” 专用sh脚本
 #配合rss订阅，可自动分类ANi组发布的动画到子目录
+#此脚本应放在 /mnt/sdb2/ANIME/auto_ANIME.sh
 
 # 设置下载目录和目标目录
 download_dir="/mnt/sdb2/ANIME/tmp"
