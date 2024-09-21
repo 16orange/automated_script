@@ -62,9 +62,9 @@ get_quarter() {
 for file in "$download_dir"/*; do
     [ -f "$file" ] || continue  # 跳过非文件
 
-    # 提取动画名称和集数
-    anime_name=$(basename "$file" | sed -E 's/^\[ANi\] ([^-]+) - .*/\1/')
-    episode_count=$(basename "$file" | sed -E 's/.* - ([0-9]+) .*/\1/')
+    # 提取动画名称和集数，去掉括号中的内容并支持复杂名称
+    anime_name=$(basename "$file" | sed -E 's/^\[ANi\] (.+?) - ([0-9]+|SP|OVA).*/\1/' | sed 's/（[^）]*）//g')
+    episode_count=$(basename "$file" | sed -E 's/.* - ([0-9]+).*/\1/')
 
     # 验证集数是否为数字
     if ! [[ "$episode_count" =~ ^[0-9]+$ ]]; then
