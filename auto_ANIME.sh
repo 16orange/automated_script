@@ -1,15 +1,17 @@
 #!/bin/bash
 
-#此为qBittorrent “Torrent 完成时运行外部程序” 专用sh脚本
-#配合rss订阅，可自动分类ANi组发布的动画到子目录
-#此脚本应放在 /mnt/sdb2/ANIME/auto_ANIME.sh
+# 此为qBittorrent “Torrent 完成时运行外部程序” 专用sh脚本
+# 配合rss订阅，可自动分类ANi组发布的动画到子目录
+# 创建硬链接，以便在下载目录继续做种
+
+# 此脚本应放在 /mnt/sdb2/ANIME/auto_ANIME.sh
 
 # 设置下载目录和目标目录
 download_dir="/mnt/sdb2/ANIME/tmp"
 base_target_dir="/mnt/sdb2/ANIME"
 
 # 创建目标目录的函数
-copy_to_target_dir() {
+link_to_target_dir() {
     local file=$1
     local anime_name=$2
     local year=$3
@@ -22,9 +24,9 @@ copy_to_target_dir() {
         echo "Created directory $target_dir"
     fi
 
-    # 复制文件
-    cp "$file" "$target_dir"
-    echo "Copied $(basename "$file") to $target_dir"
+    # 创建硬链接
+    ln "$file" "$target_dir"
+    echo "Linked $(basename "$file") to $target_dir"
 }
 
 # 获取季度
@@ -80,8 +82,8 @@ for file in "$download_dir"/*; do
     start_year=$(echo "$season_info" | cut -d ' ' -f 1)
     quarter=$(echo "$season_info" | cut -d ' ' -f 2)
 
-    # 复制文件到目标目录
-    copy_to_target_dir "$file" "$anime_name" "$start_year" "$quarter"
+    # 创建硬链接到目标目录
+    link_to_target_dir "$file" "$anime_name" "$start_year" "$quarter"
 done
 
 echo "All files have been organized."
