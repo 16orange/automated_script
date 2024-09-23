@@ -66,6 +66,9 @@ for file in "$download_dir"/*; do
     anime_name=$(basename "$file" | sed -E 's/^\[ANi\] (.+?) - ([0-9]+|SP|OVA).*/\1/' | sed 's/（[^）]*）//g')
     episode_count=$(basename "$file" | sed -E 's/.* - ([0-9]+).*/\1/')
 
+    # 将集数从01到09转换为1到9
+    episode_count=$(echo "$episode_count" | sed 's/^0*//')
+
     # 验证集数是否为数字
     if ! [[ "$episode_count" =~ ^[0-9]+$ ]]; then
         echo "Error: Unable to extract episode number from $(basename "$file")"
@@ -87,4 +90,3 @@ for file in "$download_dir"/*; do
 done
 
 echo "All files have been organized."
-
