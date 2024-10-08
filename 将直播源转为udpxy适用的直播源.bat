@@ -15,7 +15,7 @@ for /f "usebackq delims=" %%a in ("%inputFile%") do (
     if "!line!" neq "" (
         echo !line! | findstr /r "^rtp://" >nul
         if !errorlevel! == 0 (
-            rem 替换 RTP 地址
+            rem 替换 RTP 地址，将10.1.1.1改为实际的udpxy地址
             set "line=http://10.1.1.1:8012/rtp/!line:rtp://=!"
             echo !line!\ >> "%outputFile%"
         ) else (
