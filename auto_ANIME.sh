@@ -8,11 +8,11 @@
 # !注意!如果运行该脚本时，要分类的剧集播出时间过久，会归类错误
 # !注意!判断季度方式为以12集为一季度，所以当季度为12倍数多一两集时，会归类错误
 
-# 此脚本应放在 /mnt/sdb2/ANIME/auto_ANIME.sh
+# 此脚本应放在 /mnt/nvme0n1p4/ANIME/auto_ANIME.sh
 
 # 设置下载目录和目标目录
-download_dir="/mnt/sdb2/ANIME/tmp"
-base_target_dir="/mnt/sdb2/ANIME"
+download_dir="/mnt/nvme0n1p4/ANIME/tmp"
+base_target_dir="/mnt/nvme0n1p4/ANIME"
 
 # 创建目标目录的函数
 link_to_target_dir() {
