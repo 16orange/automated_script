@@ -1,5 +1,7 @@
 #!/bin/bash
 
+#运行sh /mnt/nvme0n1p4/sh/nhentai_DL.sh
+
 # 提示用户输入漫画的 ID
 read -p "请输入漫画的 ID: " manga_id
 
