@@ -4,15 +4,11 @@
 # 配合rss订阅，可自动分类ANi组发布的动画到子目录
 # 创建硬链接，以便在下载目录继续做种
 
-# 权限建议设置为0755
-# !注意!如果运行该脚本时，要分类的剧集播出时间过久，会归类错误
-# !注意!判断季度方式为以12集为一季度，所以当季度为12倍数多一两集时，会归类错误
-
-# 此脚本应放在 /mnt/nvme0n1p4/ANIME/auto_ANIME.sh
+# 此脚本应放在 /anime/auto_ANIME.sh
 
 # 设置下载目录和目标目录
-download_dir="/mnt/nvme0n1p4/ANIME/tmp"
-base_target_dir="/mnt/nvme0n1p4/ANIME"
+download_dir="/anime/tmp"
+base_target_dir="/anime"
 
 # 创建目标目录的函数
 link_to_target_dir() {
@@ -55,11 +51,12 @@ get_quarter() {
 
     # 根据月份获取季度
     case $target_month in
-        12|01|02) echo "$target_year Q1" ;;
-        03|04|05) echo "$target_year Q2" ;;
-        06|07|08) echo "$target_year Q3" ;;
-        09|10|11) echo "$target_year Q4" ;;
-    esac
+    12) echo "$((target_year + 1)) Q1" ;;  # 12月属于下一年Q1
+    01|02) echo "$target_year Q1" ;;
+    03|04|05) echo "$target_year Q2" ;;
+    06|07|08) echo "$target_year Q3" ;;
+    09|10|11) echo "$target_year Q4" ;;
+esac
 }
 
 # 遍历下载目录中的文件
